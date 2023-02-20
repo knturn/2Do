@@ -8,33 +8,35 @@
 import SwiftUI
 
 struct ListView: View {
-    @State var items = [
-    "This first item",
-    "This is second",
-    "This is third"
-    ]
+    @State var presentationState = false
+    @EnvironmentObject var viewModel: ListViewModel
     var body: some View {
         List {
-            ForEach(items, id: \.self) { item in
-                ListRowView(title: item)
+            ForEach(viewModel.items) { item in
+                ListRowView(element: item)
+                    .onTapGesture {
+                        withAnimation(.linear) {
+                            viewModel.changeIsDone(item: item)
+                        }
+                    }
+                
             }
+            .onDelete(perform: viewModel.deleteElement)
+            .onMove(perform: viewModel.moveElement)
         }
         .listStyle(.plain)
         .navigationBarItems(leading: EditButton(),
-                            trailing:
-                                NavigationLink("Add", destination: AddView())
+                            trailing: NavigationLink("Add", destination: AddView())
+                            
         )
         .navigationTitle("2DO 📝")
-        
     }
 }
-
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
             ListView()
         }
+        .environmentObject(ListViewModel())
     }
 }
-
-

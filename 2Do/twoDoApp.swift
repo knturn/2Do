@@ -9,11 +9,13 @@ import SwiftUI
 
 @main
 struct twoDoApp: App {
+    @StateObject var listViewModel = ListViewModel()
     var body: some Scene {
         WindowGroup {
             NavigationStack {
                 ListView()
             }
+            .environmentObject(listViewModel)
         }
     }
 }

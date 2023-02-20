@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct AddView: View {
+    @Environment(\.dismiss) var dismiss
+    @State private var showingAlert = false
+    @EnvironmentObject var listViewModel: ListViewModel
     @State var todo: String = ""
     var body: some View {
         ScrollView {
@@ -17,10 +20,9 @@ struct AddView: View {
                 .padding(.horizontal)
                 .frame(height: 55)
                 .background(Color(.lightGray))
+                .foregroundColor(.white)
                 .cornerRadius(10)
-                Button {
-                    print("Tapped")
-                } label: {
+                Button(action: addItem, label: {
                     Image(systemName: "plus.app.fill")
                         .font(.title)
                         .frame(height: 50)
@@ -28,11 +30,25 @@ struct AddView: View {
                         .foregroundColor(.white)
                         .background(Color(.orange)
                             .cornerRadius(10))
+                        .alert(Text("Write something"), isPresented: $showingAlert) {
+                            Button("OK", role: .cancel) { }
+                        }
                 }
+                
+                )
             }
             .padding(15)
         }
         .navigationTitle("Add new item ✏️")
+    }
+    private func addItem() {
+        guard !todo.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            showingAlert = true
+            return
+        }
+        let title = todo
+        listViewModel.addNewItem(with: title)
+        dismiss.callAsFunction()
     }
 }
 
@@ -41,5 +57,6 @@ struct AddView_Previews: PreviewProvider {
         NavigationView {
             AddView()
         }
+        .environmentObject(ListViewModel())
     }
 }
