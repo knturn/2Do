@@ -28,7 +28,7 @@ struct AddView: View {
                         .frame(height: 50)
                         .frame(maxWidth: .infinity)
                         .foregroundColor(.white)
-                        .background(Color(.orange)
+                        .background(Color(.red)
                             .cornerRadius(10))
                         .alert(Text("Write something"), isPresented: $showingAlert) {
                             Button("OK", role: .cancel) { }
