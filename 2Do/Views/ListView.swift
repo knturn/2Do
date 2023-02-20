@@ -11,20 +11,27 @@ struct ListView: View {
     @State var presentationState = false
     @EnvironmentObject var viewModel: ListViewModel
     var body: some View {
-        List {
-            ForEach(viewModel.items) { item in
-                ListRowView(element: item)
-                    .onTapGesture {
-                        withAnimation(.linear) {
-                            viewModel.changeIsDone(item: item)
-                        }
+        ZStack {
+            if !viewModel.items.isEmpty {
+                List {
+                    ForEach(viewModel.items) { item in
+                        ListRowView(element: item)
+                            .onTapGesture {
+                                withAnimation(.linear) {
+                                    viewModel.changeIsDone(item: item)
+                                }
+                            }
+                        
                     }
-                
+                    .onDelete(perform: viewModel.deleteElement)
+                    .onMove(perform: viewModel.moveElement)
+                }
+                .listStyle(.plain)
+            } else {
+                NoItemView()
             }
-            .onDelete(perform: viewModel.deleteElement)
-            .onMove(perform: viewModel.moveElement)
         }
-        .listStyle(.plain)
+       
         .navigationBarItems(leading: EditButton(),
                             trailing: NavigationLink("Add", destination: AddView())
                             
