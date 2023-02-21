@@ -11,7 +11,7 @@ struct ListView: View {
     @State var presentationState = false
     @EnvironmentObject var viewModel: ListViewModel
     var body: some View {
-        ZStack {
+        Group {
             if !viewModel.items.isEmpty {
                 List {
                     ForEach(viewModel.items) { item in
@@ -31,7 +31,6 @@ struct ListView: View {
                 NoItemView()
             }
         }
-       
         .navigationBarItems(leading: EditButton(),
                             trailing: NavigationLink("Add", destination: AddView())
                             

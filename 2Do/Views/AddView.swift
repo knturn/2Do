@@ -19,7 +19,7 @@ struct AddView: View {
                     .foregroundColor(.secondary))
                 .padding(.horizontal)
                 .frame(height: 55)
-                .background(Color(.lightGray))
+                .background(Color(UIColor.secondarySystemBackground))
                 .foregroundColor(.white)
                 .cornerRadius(10)
                 Button(action: addItem, label: {
@@ -28,7 +28,7 @@ struct AddView: View {
                         .frame(height: 50)
                         .frame(maxWidth: .infinity)
                         .foregroundColor(.white)
-                        .background(Color(.red)
+                        .background(Color.accentColor
                             .cornerRadius(10))
                         .alert(Text("Write something"), isPresented: $showingAlert) {
                             Button("OK", role: .cancel) { }
